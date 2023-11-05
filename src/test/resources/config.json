@@ -1,19 +1,7 @@
 {
   "browser": "chrome",
-  "url": "https://demoqa.com/",
-  "wait_duration": 10,
-  "chrome_options": [
-    "--incognito",
-    "--lang=en-US",
-    "--remote-allow-origins=*"
-  ],
-  "firefox_options": {
-    "key": "intl.accept_languages",
-    "value": "en-US"
-  },
-  "edge_options": [
-    "--incognito",
-    "--lang=en-US",
-    "--remote-allow-origins=*"
-  ]
+  "baseUri": "http://tl.af-ctf.ru",
+  "formUri": "/#inputForAuth",
+  "authEndpoint": "/calluserforsignup",
+  "timeout": "5000"
 }
