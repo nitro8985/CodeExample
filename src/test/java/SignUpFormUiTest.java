@@ -28,7 +28,7 @@ public class SignUpFormUiTest extends BaseUiTest {
         try {
             Selenide.switchTo().alert().accept();
         } catch (TimeoutException | AlertNotFoundException e) {
-            log.error("No Alert Appeared: ", e);
+            log.error("No Alert Appeared: {}", e.getMessage());
         }
         $(By.id("loginModalAuth")).shouldBe(Condition.visible);
     }
