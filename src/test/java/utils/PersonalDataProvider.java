@@ -9,7 +9,7 @@ import java.util.Locale;
 
 public class PersonalDataProvider {
 
-    private static final Faker faker = new Faker(new Locale("ru-RU"));
+    private static final Faker FAKER = new Faker(new Locale("ru-RU"));
 
 
     @DataProvider
@@ -20,10 +20,10 @@ public class PersonalDataProvider {
     }
 
     private static PersonalData generateData() {
-        String password = faker.bothify("??#??##?");
-        return new PersonalData(faker.name().fullName(),
-                faker.bothify("???####@gmail.com"),
-                faker.numerify("89#########"),
+        String password = FAKER.bothify("??#??##?");
+        return new PersonalData(FAKER.name().fullName(),
+                FAKER.bothify("???####@gmail.com"),
+                FAKER.numerify("89#########"),
                 password,
                 password);
     }

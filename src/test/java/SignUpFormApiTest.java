@@ -12,13 +12,13 @@ import utils.PersonalDataProvider;
 
 public class SignUpFormApiTest {
 
-    private final String TEXT_ON_SUCCESS = "Сейчас на ваш телефон поступит звонок, последние 4 цифры являются кодом";
-    private final String MESSAGE_ON_REJECT = "не может быть пустым";
-    private final String MESSAGE_ON_VALIDATION_FAULT = "must be a valid email";
+    private static final String TEXT_ON_SUCCESS = "Сейчас на ваш телефон поступит звонок, последние 4 цифры являются кодом";
+    private static final String MESSAGE_ON_REJECT = "не может быть пустым";
+    private static final String MESSAGE_ON_VALIDATION_FAULT = "must be a valid email";
 
-    private final String TYPE_PATH = "type";
-    private final String TEXT_PATH = "text";
-    private final String MESSAGE_PATH = "message";
+    private static final String TYPE_PATH = "type";
+    private static final String TEXT_PATH = "text";
+    private static final String MESSAGE_PATH = "message";
 
     @Test(description = "Check that backend accepts valid data",
             dataProvider = "fakeData",
