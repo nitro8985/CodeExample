@@ -5,26 +5,26 @@ import models.PersonalData;
 import org.testng.annotations.DataProvider;
 
 import java.lang.reflect.Method;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.Locale;
 
 public class PersonalDataProvider {
 
+    private static final Faker FAKER = new Faker(new Locale("ru-RU"));
+
+
     @DataProvider
     public static Object[][] fakeData(Method method) {
-        Faker faker = new Faker(new Locale("ru-RU"));
-        List<PersonalData> pd = new ArrayList<>();
-        for (int i = 0; i < 3; ++i) {
-            String password = faker.bothify("??#??##?");
-            pd.add(new PersonalData(faker.name().fullName()
-                    , faker.bothify("???####@gmail.com")
-                    , faker.numerify("89#########")
-                    , password
-                    , password));
-        }
         return method.getName().contains("AcceptsValidDataTest")
-                ? new PersonalData[][]{{pd.get(0)}, {pd.get(1)}, {pd.get(2)}}
-                : new PersonalData[][]{{pd.get(0)}};
+                ? new PersonalData[][]{{generateData()}, {generateData()}, {generateData()}}
+                : new PersonalData[][]{{generateData()}};
+    }
+
+    private static PersonalData generateData() {
+        String password = FAKER.bothify("??#??##?");
+        return new PersonalData(FAKER.name().fullName(),
+                FAKER.bothify("???####@gmail.com"),
+                FAKER.numerify("89#########"),
+                password,
+                password);
     }
 }
