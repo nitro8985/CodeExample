@@ -9,7 +9,7 @@ import utils.DataUtil;
 import static com.codeborne.selenide.Selenide.closeWebDriver;
 import static com.codeborne.selenide.Selenide.open;
 
-public class BaseUiTest {
+public abstract class BaseUiTest {
 
     @BeforeClass
     protected void setupAllure() {
