@@ -9,17 +9,17 @@ import java.util.Map;
 @Data
 public class ResponseModel {
     @JsonAlias("type")
-    boolean typeTrue;
-    String text;
-    String message;
+    private boolean typeTrue;
+    private String text;
+    private String message;
     @JsonIgnore
-    Map<String, String> userName;
+    private Map<String, String> userName;
     @JsonIgnore
-    Map<String, String> login;
+    private Map<String, String> login;
     @JsonIgnore
-    Map<String, String> phoneNumber;
+    private Map<String, String> phoneNumber;
     @JsonIgnore
-    Map<String, String> password;
+    private Map<String, String> password;
     @JsonIgnore
-    Map<String, String> passwordValidation;
+    private Map<String, String> passwordValidation;
 }
