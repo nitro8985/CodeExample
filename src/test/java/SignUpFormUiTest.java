@@ -23,11 +23,7 @@ public class SignUpFormUiTest extends BaseUiTest {
         SignUpForm signUpForm = new SignUpForm();
         fillTheForm(signUpForm, pd);
         signUpForm.submit();
-        try {
-            Selenide.switchTo().alert().accept();
-        } catch (TimeoutException | AlertNotFoundException e) {
-            log.error("No Alert Appeared: {}", e.getMessage());
-        }
+        acceptAlert();
         OtpForm otpForm = new OtpForm();
         otpForm.getSelenideElement().shouldBe(Condition.visible);
     }
@@ -40,7 +36,7 @@ public class SignUpFormUiTest extends BaseUiTest {
         SignUpForm form = new SignUpForm();
         pd.setUserName("");
         fillTheForm(form, pd);
-        Assert.assertFalse(form.isSubmitButtonEnabled());
+        Assert.assertFalse(form.isSubmitButtonEnabled(), "Submit button has wrong state");
     }
 
     @Test(description = "Check there is validation of email on front side",
@@ -64,5 +60,13 @@ public class SignUpFormUiTest extends BaseUiTest {
                 .confirmPassword(pd.getPassword())
                 .acceptTerms()
                 .givePermission();
+    }
+
+    private void acceptAlert() {
+        try {
+            Selenide.switchTo().alert().accept();
+        } catch (TimeoutException | AlertNotFoundException e) {
+            log.error("No Alert Appeared: {}", e.getMessage());
+        }
     }
 }

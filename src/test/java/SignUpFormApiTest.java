@@ -6,6 +6,7 @@ import models.PersonalData;
 import models.ResponseModel;
 import org.apache.commons.lang3.RandomStringUtils;
 import org.apache.http.HttpStatus;
+import org.testng.Assert;
 import org.testng.annotations.Test;
 import org.testng.asserts.SoftAssert;
 import utils.DataUtil;
@@ -24,8 +25,8 @@ public class SignUpFormApiTest {
     public void backendAcceptsValidDataTest(PersonalData pd) {
         Response response = postData(pd);
         ResponseModel responseModel = response.as(ResponseModel.class);
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code mismatch");
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code mismatch");
         softAssert.assertTrue(responseModel.isTypeTrue(), "Wrong type");
         softAssert.assertEquals(responseModel.getText(), TEXT_ON_SUCCESS, "Text in body mismatch");
         softAssert.assertAll();
@@ -39,8 +40,8 @@ public class SignUpFormApiTest {
         pd.setUserName("");
         Response response = postData(pd);
         ResponseModel responseModel = response.as(ResponseModel.class);
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code mismatch");
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code mismatch");
         softAssert.assertFalse(responseModel.isTypeTrue(), "Wrong type");
         softAssert.assertTrue(responseModel.getMessage().contains(MESSAGE_ON_REJECT),
                 "Message in body mismatch");
@@ -55,8 +56,8 @@ public class SignUpFormApiTest {
         pd.setLogin(RandomStringUtils.randomAlphabetic(DataUtil.RANDSTRLEN));
         Response response = postData(pd);
         ResponseModel responseModel = response.as(ResponseModel.class);
+        Assert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code mismatch");
         SoftAssert softAssert = new SoftAssert();
-        softAssert.assertEquals(response.statusCode(), HttpStatus.SC_OK, "Status code mismatch");
         softAssert.assertFalse(responseModel.isTypeTrue(), "Wrong type");
         softAssert.assertTrue(responseModel.getMessage().contains(MESSAGE_ON_VALIDATION_FAULT),
                 "Message in body mismatch");
