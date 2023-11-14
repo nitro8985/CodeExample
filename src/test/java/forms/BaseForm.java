@@ -1,8 +1,9 @@
 package forms;
 
+import com.codeborne.selenide.SelenideElement;
 import org.openqa.selenium.By;
 
-import static com.codeborne.selenide.Selenide.$$;
+import static com.codeborne.selenide.Selenide.$;
 
 public abstract class BaseForm {
     private final By uniqueFormLocator;
@@ -14,7 +15,11 @@ public abstract class BaseForm {
     }
 
     public boolean isOpen() {
-        return !$$(uniqueFormLocator).isEmpty();
+        return $(uniqueFormLocator).isDisplayed();
+    }
+
+    public SelenideElement getSelenideElement() {
+        return $(uniqueFormLocator);
     }
 }
 

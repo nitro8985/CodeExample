@@ -2,17 +2,15 @@ import com.codeborne.selenide.Condition;
 import com.codeborne.selenide.Selenide;
 import com.codeborne.selenide.ex.AlertNotFoundException;
 import com.codeborne.selenide.ex.TimeoutException;
+import forms.OtpForm;
 import forms.SignUpForm;
 import lombok.extern.slf4j.Slf4j;
 import models.PersonalData;
 import org.apache.commons.lang3.RandomStringUtils;
-import org.openqa.selenium.By;
 import org.testng.Assert;
 import org.testng.annotations.Test;
 import utils.DataUtil;
 import utils.PersonalDataProvider;
-
-import static com.codeborne.selenide.Selenide.$;
 
 @Slf4j
 public class SignUpFormUiTest extends BaseUiTest {
@@ -22,15 +20,12 @@ public class SignUpFormUiTest extends BaseUiTest {
             dataProviderClass = PersonalDataProvider.class,
             priority = 1)
     public void formAcceptsValidDataTest(PersonalData pd) {
-        SignUpForm form = new SignUpForm();
-        fillTheForm(form, pd);
-        form.submit();
-        try {
-            Selenide.switchTo().alert().accept();
-        } catch (TimeoutException | AlertNotFoundException e) {
-            log.error("No Alert Appeared: {}", e.getMessage());
-        }
-        $(By.id("loginModalAuth")).shouldBe(Condition.visible);
+        SignUpForm signUpForm = new SignUpForm();
+        fillTheForm(signUpForm, pd);
+        signUpForm.submit();
+        acceptAlert();
+        OtpForm otpForm = new OtpForm();
+        otpForm.getSelenideElement().shouldBe(Condition.visible);
     }
 
     @Test(description = "Check there is validation of form fulfillment on front side",
@@ -41,7 +36,7 @@ public class SignUpFormUiTest extends BaseUiTest {
         SignUpForm form = new SignUpForm();
         pd.setUserName("");
         fillTheForm(form, pd);
-        Assert.assertFalse(form.isSubmitButtonEnabled());
+        Assert.assertFalse(form.isSubmitButtonEnabled(), "Submit button has wrong state");
     }
 
     @Test(description = "Check there is validation of email on front side",
@@ -49,11 +44,12 @@ public class SignUpFormUiTest extends BaseUiTest {
             dataProviderClass = PersonalDataProvider.class,
             priority = 3)
     public void formValidatesEmailTest(PersonalData pd) {
-        SignUpForm form = new SignUpForm();
+        SignUpForm signUpForm = new SignUpForm();
         pd.setLogin(RandomStringUtils.randomAlphabetic(DataUtil.RANDSTRLEN));
-        fillTheForm(form, pd);
-        form.submit();
-        $(By.id("loginModalAuth")).shouldNot(Condition.visible);
+        fillTheForm(signUpForm, pd);
+        signUpForm.submit();
+        OtpForm otpForm = new OtpForm();
+        otpForm.getSelenideElement().shouldNot(Condition.visible);
     }
 
     private void fillTheForm(SignUpForm form, PersonalData pd) {
@@ -64,5 +60,13 @@ public class SignUpFormUiTest extends BaseUiTest {
                 .confirmPassword(pd.getPassword())
                 .acceptTerms()
                 .givePermission();
+    }
+
+    private void acceptAlert() {
+        try {
+            Selenide.switchTo().alert().accept();
+        } catch (TimeoutException | AlertNotFoundException e) {
+            log.error("No Alert Appeared: {}", e.getMessage());
+        }
     }
 }
